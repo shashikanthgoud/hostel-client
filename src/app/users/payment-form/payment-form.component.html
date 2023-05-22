@@ -1,0 +1,96 @@
+<div class="spinner-container" *ngIf="isLoading">
+    <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+</div>
+<section class="payment-section p-3">
+    <div class="payment-section-header">
+        <h2 class="">{{data.name}}</h2>
+        <button mat-dialog-close class="btn-close"></button>
+    </div>
+    <form [formGroup]="paymentForm" class="payment-form">
+        <div class="card mb-3">
+            <div class="card-header">
+                Payment Details
+            </div>
+            <div class="row card-body">
+                <div class="col-md-3 mb-3">
+                <label for="lastPaymentDate" class="form-label">Last Payment Date*</label>
+                <input type="date" id="lastPaymentDate" formControlName="lastPaymentDate" class="form-control" />
+                <div *ngIf="paymentForm.get('lastPaymentDate')?.invalid && paymentForm.get('lastPaymentDate')?.touched" class="text-danger">
+                    <div *ngIf="paymentForm.get('lastPaymentDate')?.errors?.['required']">Last Payment Date is required.</div>
+                </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                <label for="fees" class="form-label">Fees*</label>
+                <input type="number" id="fees" formControlName="fees" class="form-control" (input)="onInputAmount($event)">
+                <div *ngIf="paymentForm.get('fees')?.invalid && paymentForm.get('fees')?.touched" class="text-danger">
+                    <div *ngIf="paymentForm.get('fees')?.errors?.['required']">Fees is required.</div>
+                </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                <label for="amountPaid" class="form-label">Amount Paid*</label>
+                <input type="number" id="amountPaid" formControlName="amountPaid" class="form-control" (input)="onInputAmount($event)">
+                <div *ngIf="paymentForm.get('amountPaid')?.invalid && paymentForm.get('amountPaid')?.touched" class="text-danger">
+                    <div *ngIf="paymentForm.get('amountPaid')?.errors?.['required']">Amount Paid is required.</div>
+                </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                <label class="form-label">Payment Type</label>
+                <div class="form-check">
+                    <input type="radio" id="paymentTypePartial" formControlName="paymentType" value="partial" class="form-check-input">
+                    <label for="paymentTypePartial" class="form-check-label">Partial</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="paymentTypeFull" formControlName="paymentType" value="full" class="form-check-input">
+                    <label for="paymentTypeFull" class="form-check-label">Full</label>
+                </div>
+                <div *ngIf="paymentForm.get('paymentType')?.invalid && paymentForm.get('paymentType')?.touched" class="text-danger">
+                    <div *ngIf="paymentForm.get('paymentType')?.errors?.['required']">Payment Type is required.</div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center my-3">
+            <button  type="button" class="btn btn-primary" (click)="onSave()">Save</button>
+            <button  type="button" class="btn btn-secondary mx-2" (click)="onCancel()">Cancel</button>
+        </div>
+    </form>
+    <p class="fw-bold fs-6">Payment history</p>
+    <div class="mat-elevation-z8 pb-2">
+        <table #table mat-table [dataSource]="payments" matSort>
+    
+        <!-- Fees Column -->
+        <ng-container matColumnDef="fees">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fees </th>
+            <td mat-cell *matCellDef="let row" style="width:20%"> {{row.fees}} </td>
+        </ng-container>
+    
+        <!-- Amount Paid Column -->
+        <ng-container matColumnDef="amountPaid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount Paid </th>
+            <td mat-cell *matCellDef="let row" style="width:15%"> {{row.amountPaid}} </td>
+        </ng-container>
+
+        <!-- Date Of Last Payment Column -->
+        <ng-container matColumnDef="lastPaymentDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Payment Date</th>
+            <td mat-cell *matCellDef="let row" style="width:15%">{{row.lastPaymentDate | date:'MM/dd/yyyy'}}</td>
+        </ng-container>
+    
+        <!-- Payment Type Column -->
+        <ng-container matColumnDef="paymentType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Type </th>
+            <td mat-cell *matCellDef="let row" style="width:10%"> {{row.paymentType | titlecase}} </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height: 40px;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height: 40px;"></tr>
+    
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow style="height: 40px;">
+            <td class="mat-cell text-center" colspan="5">No records found</td>
+        </tr>
+        </table>
+    
+        <mat-paginator [pageSizeOptions]="[5]" aria-label="Select page of payments"></mat-paginator>
+    </div>
+</section>

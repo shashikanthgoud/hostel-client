@@ -1,0 +1,52 @@
+.payment-section {
+  max-height: 550px;
+  overflow-y: auto;
+
+  .payment-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h2{
+      margin: 0 auto;
+    }
+  }
+  .btn-close {
+    border: none;
+    color: #000;
+    cursor: pointer;
+    &:focus{
+        box-shadow: none;
+    }
+  }
+  .payment-form {
+      border-radius: 4px;
+      padding: 1rem;
+      overflow-y: auto;
+      max-height: 300px;
+
+      .form-control, .form-select {
+          padding: 0.15rem 0.5rem;
+      }
+
+    .btn-close {
+      border: none;
+      color: #000;
+      cursor: pointer;
+      &:focus{
+          box-shadow: none;
+      }
+    }
+    
+    .btn-close:hover {
+      color: #ff0000;
+    }
+    
+  }
+  table {
+    width: 100%;
+  }
+  .mat-mdc-form-field {
+    font-size: 14px;
+  }
+}
+  

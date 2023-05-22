@@ -1,0 +1,136 @@
+<div class="spinner-container" *ngIf="isLoading">
+    <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+</div>
+<section class="user-form">
+    <div class="user-form-header">
+        <h4>{{ isEditing ? 'Edit User' : 'Add User' }}</h4>
+        <button mat-dialog-close class="btn-close"></button>
+    </div>
+    <form [formGroup]="userForm" class="container p-3">
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="name" class="form-label">Name*</label>
+                <input type="text" id="name" formControlName="name" class="form-control" />
+                <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched" class="text-danger pb-1">
+                    <div *ngIf="userForm.get('name')?.errors?.['required']">Name is required.</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" formControlName="email" class="form-control" />
+                <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger pb-1">
+                    <div *ngIf="userForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select id="gender" formControlName="gender" class="form-select">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="fatherName" class="form-label">Father Name*</label>
+                <input type="text" id="fatherName" formControlName="fatherName" class="form-control" />
+                <div *ngIf="userForm.get('fatherName')?.invalid && userForm.get('fatherName')?.touched" class="text-danger pb-1">
+                    <div *ngIf="userForm.get('fatherName')?.errors?.['required']">Father Name is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="dob" class="form-label">Date of Birth*</label>
+                <input type="date" id="dob" formControlName="dob" class="form-control" />
+                <div *ngIf="userForm.get('dob')?.invalid && userForm.get('dob')?.touched" class="text-danger">
+                    <div *ngIf="userForm.get('dob')?.errors?.['required']">Date of birth is required.</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="phone" class="form-label">Mobile*</label>
+                <input type="tel" id="phone" formControlName="phone" class="form-control" maxlength="10"/>
+                <div *ngIf="userForm.get('phone')?.invalid && userForm.get('phone')?.touched" class="text-danger pb-1">
+                    <div *ngIf="userForm.get('phone')?.errors?.['required']">Phone number is required.</div>
+                    <div *ngIf="userForm.get('phone')?.errors?.['invalidPhone']">Enter a valid number.</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="alternatePhone" class="form-label">Parent Mobile*</label>
+                <input type="tel" id="alternatePhone" formControlName="alternatePhone" class="form-control" maxlength="10"/>
+                <div *ngIf="userForm.get('alternatePhone')?.invalid && userForm.get('alternatePhone')?.touched" class="text-danger pb-1">
+                    <div *ngIf="userForm.get('alternatePhone')?.errors?.['required']">Parent phone number is required.</div>
+                    <div *ngIf="userForm.get('alternatePhone')?.errors?.['invalidPhone']">Enter a valid number.</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="aadharId" class="form-label">Aadhaar*</label>
+                <input type="text" id="aadharId" formControlName="aadharId" class="form-control" />
+                <div *ngIf="userForm.get('aadharId')?.invalid && userForm.get('aadharId')?.touched" class="text-danger pb-1">
+                    <div *ngIf="userForm.get('aadharId')?.errors?.['required']">Aadhaar is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="institute" class="form-label">Institute/College/Work*</label>
+                <input type="text" id="institute" formControlName="institute" class="form-control" />
+                <div *ngIf="userForm.get('institute')?.invalid && userForm.get('institute')?.touched" class="text-danger pb-1">
+                    <div *ngIf="userForm.get('institute')?.errors?.['required']">Institute is required.</div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="hostel" class="form-label">Hostel</label>
+                <select id="hostel" formControlName="hostel" class="form-select">
+                    <option *ngFor="let h of hostels;" value="{{h}}">{{h}}</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="fees" class="form-label">Fees*</label>
+                <input type="number" id="fees" formControlName="fees" class="form-control" (input)="onInputAmount($event)">
+                <div *ngIf="userForm.get('fees')?.invalid && userForm.get('fees')?.touched" class="text-danger">
+                    <div *ngIf="userForm.get('fees')?.errors?.['required']">Fees is required.</div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="roomNumber" class="form-label">Room Number</label>
+                <input type="text" id="roomNumber" formControlName="roomNumber" class="form-control" />
+                <div *ngIf="userForm.get('roomNumber')?.invalid && userForm.get('roomNumber')?.touched" class="text-danger">
+                  <div *ngIf="userForm.get('roomNumber')?.errors?.['required']">Room number is required.</div>
+                  <div *ngIf="userForm.get('roomNumber')?.errors?.['pattern']">Only numbers allowed.</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="admissionDate" class="form-label">Admission Date*</label>
+                <input type="date" id="admissionDate" formControlName="admissionDate" class="form-control" />
+                <div *ngIf="userForm.get('admissionDate')?.invalid && userForm.get('admissionDate')?.touched" class="text-danger">
+                    <div *ngIf="userForm.get('admissionDate')?.errors?.['required']">Admission Date is required.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="address" class="form-label">Address*</label>
+                <textarea id="address" formControlName="address" class="form-control" rows="4"></textarea>
+                <div *ngIf="userForm.get('address')?.invalid && userForm.get('address')?.touched" class="text-danger">
+                  <div *ngIf="userForm.get('address')?.errors?.['required']">Address is required.</div>
+                  <div *ngIf="userForm.get('address')?.errors?.['maxlength']">Address should not exceed 250 characters.</div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3" *ngIf="isEditing">
+                <label for="status" class="form-label">Status</label>
+                <select id="status" formControlName="status" class="form-select">
+                    <option value="Joined">Joined</option>
+                    <option value="Vacated">Vacated</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3" *ngIf="isEditing">
+                <label for="vacatedDate" class="form-label">Vacated Date</label>
+                <input type="date" id="vacatedDate" formControlName="vacatedDate" class="form-control" />
+            </div>
+        </div>
+        <div class="d-flex justify-content-center my-3">
+            <button type="submit" class="btn btn-primary" (click)="onSave()">{{ isEditing ? 'Update' : 'Save' }}</button>
+            <button type="button" class="btn btn-secondary mx-2" (click)="onCancel()">Cancel</button>
+        </div>
+    </form>
+</section>
+  

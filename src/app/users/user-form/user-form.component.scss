@@ -1,0 +1,36 @@
+.user-form {
+    border-radius: 4px;
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: 550px;
+
+    .form-control, .form-select {
+        padding: 0.15rem 0.5rem;
+    }
+
+  .user-form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .user-form-header h4 {
+    margin: 0 auto;
+  }
+  
+  .btn-close {
+    border: none;
+    color: #000;
+    cursor: pointer;
+    &:focus{
+        box-shadow: none;
+    }
+  }
+  
+  .btn-close:hover {
+    color: #ff0000;
+  }
+  
+}
+  
